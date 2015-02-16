@@ -31,12 +31,13 @@ import static java.lang.String.format;                          import 6
         structurePlugin.process();
         List<String> collect = structurePlugin.getOutput().collect(Collectors.toList());
         assertThat(collect, contains(
-                "se.arbetsformedlingen.elin.rapport.util.ExcelCSVSkrivare refers to package org.apache.commons.lang3",
-                "se.arbetsformedlingen.elin.rapport.util.ExcelCSVSkrivare refers to package se.arbetsformedlingen.utils.log",
+                "se.arbetsformedlingen.elin.rapport.util.ExcelCSVSkrivare refers to package java.lang",
                 "se.arbetsformedlingen.elin.rapport.util.ExcelCSVSkrivare refers to package java.lang.reflect",
                 "se.arbetsformedlingen.elin.rapport.util.ExcelCSVSkrivare refers to package java.text",
                 "se.arbetsformedlingen.elin.rapport.util.ExcelCSVSkrivare refers to package java.util",
-                "se.arbetsformedlingen.elin.rapport.util.ExcelCSVSkrivare refers to package java.lang"));
+                "se.arbetsformedlingen.elin.rapport.util.ExcelCSVSkrivare refers to package org.apache.commons.lang3",
+                "se.arbetsformedlingen.elin.rapport.util.ExcelCSVSkrivare refers to package se.arbetsformedlingen.utils.log"
+        ));
     }
 
 }
