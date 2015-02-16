@@ -9,6 +9,7 @@ import java.util.stream.Stream;
  * @since 15-02-16
  */
 public interface CodeLines {
+    @Deprecated
     default Stream<String> parseCodeLines(Predicate<String> endParseCondition) {
         return parseFile(endParseCondition).stream();
     }
