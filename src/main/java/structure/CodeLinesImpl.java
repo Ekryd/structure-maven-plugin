@@ -18,7 +18,7 @@ public class CodeLinesImpl implements CodeLines {
         this.file = file;
     }
 
-    @Override
+    @Override 
     public Collection<String> parseFile(Predicate<String> endParseCondition) {
         try (Stream<String> stream = Files.lines(file.toPath())) {
             LinesStorageConsumer linesStorageConsumer = new LinesStorageConsumer();
