@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 /**
@@ -30,7 +31,10 @@ public class StructurePlugin {
     public void process() {
         //TODO: Measure time
         lines = codeLines.parseFile(EntityParser::isEntity);
-        packageName = lines.stream().filter(PackageParser::isPackage).map(PackageParser::getPackageName).findFirst();
+        packageName = lines.stream()
+                .filter(PackageParser::isPackage)
+                .map(PackageParser::getPackageName)
+                .findFirst();
 
         if (isUtilPackage()) {
             processUtilPackage();
@@ -42,16 +46,31 @@ public class StructurePlugin {
     }
 
     private void processUtilPackage() {
-        String entityName = lines.stream().filter(EntityParser::isEntity).map(EntityParser::getEntityName).findFirst().orElseThrow(RuntimeException::new);
+        Optional<String> optPackageName = lines.stream()
+                .filter(EntityParser::isEntity)
+                .map(EntityParser::getEntityName)
+                .findFirst();
+        String entityName = optPackageName.orElseThrow(RuntimeException::new);
         
-        Stream<String> importStream = lines.stream().filter(ImportParser::isImport).map(ImportParser::getImportName);
+        Stream<String> importStream = lines.stream()
+                .filter(ImportParser::isImport)
+                .map(ImportParser::getImportName);
         
         //TODO: Stringjoiner
         outputStream = importStream
-                .filter(i -> !i.equals(packageName))
+                .filter(i -> samePackage(i))
                 .distinct()
                 .sorted(Comparator.naturalOrder())
-                .map(i -> String.format("%s.%s refers to package %s", packageName.get(), entityName, i));
+                .map(generateWarningMessage(entityName));
+    }
+
+    private boolean samePackage(String i) {
+        return !i.equals(packageName.get());
+    }
+
+    private Function<String, String> generateWarningMessage(String entityName) {
+        return imp -> String.format("%s.%s refers to package %s", 
+                packageName.get(), entityName, imp);
     }
 
     public Stream<String> getOutput() {

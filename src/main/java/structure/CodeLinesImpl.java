@@ -22,7 +22,10 @@ public class CodeLinesImpl implements CodeLines {
     public Collection<String> parseFile(Predicate<String> endParseCondition) {
         try (Stream<String> stream = Files.lines(file.toPath())) {
             LinesStorageConsumer linesStorageConsumer = new LinesStorageConsumer();
-            stream.peek(linesStorageConsumer).filter(endParseCondition).findFirst();
+            stream
+                    .peek(linesStorageConsumer)
+                    .filter(endParseCondition)
+                    .findFirst();
             return linesStorageConsumer.getLines();
         } catch (IOException e) {
             throw new RuntimeException(e);
