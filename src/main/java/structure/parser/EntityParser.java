@@ -13,7 +13,7 @@ public class EntityParser {
     public static boolean isEntity(String line) {
         return ENTITY_REGEX.matcher(line).matches();
     }
-    
+
     public static String getEntityName(String line) {
         Matcher matcher = ENTITY_REGEX.matcher(line);
         matcher.find();

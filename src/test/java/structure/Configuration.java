@@ -8,7 +8,7 @@ import java.util.List;
 * @since 15-02-07
 */
 public class Configuration {
-    private List<ConfigurationRules> ruleSet_AND = new ArrayList<ConfigurationRules>();
+    private List<ConfigurationRules> ruleSet_AND = new ArrayList<>();
 
     public ConfigurationRules addRules() {
         ConfigurationRules rules = new ConfigurationRules();

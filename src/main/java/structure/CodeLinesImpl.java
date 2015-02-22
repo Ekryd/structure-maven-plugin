@@ -11,14 +11,13 @@ import java.util.stream.Stream;
  * @author bjorn
  * @since 15-02-12
  */
-public class CodeLinesImpl implements CodeLines {
+public class CodeLinesImpl {
     private final File file;
 
     public CodeLinesImpl(File file) {
         this.file = file;
     }
 
-    @Override 
     public Collection<String> parseFile(Predicate<String> endParseCondition) {
         try (Stream<String> stream = Files.lines(file.toPath())) {
             LinesStorageConsumer linesStorageConsumer = new LinesStorageConsumer();

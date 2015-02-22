@@ -11,7 +11,7 @@ import static org.junit.Assert.assertThat;
 public class StructurePluginTest {
 
     @Test
-    public void realFileShouldOutputWarningsForEachImport() throws Exception {
+    public void realFileShouldOutputWarningsForEachImportWithNoFilter() throws Exception {
 /*
 import org.apache.commons.lang3.StringUtils;                    import 1
 
@@ -27,7 +27,10 @@ import static java.lang.String.format;                          import 6
 
  */
 
-        StructurePlugin structurePlugin = new StructurePlugin("src/test/resources/ExcelCSVSkrivare.java");
+        StructurePlugin structurePlugin = new StructurePlugin(
+                "src/test/resources/ExcelCSVSkrivare.java",
+                "src/test/resources/noFilter.json");
+        
         structurePlugin.process();
         List<String> collect = structurePlugin.getOutput().collect(Collectors.toList());
         assertThat(collect, contains(
@@ -40,4 +43,19 @@ import static java.lang.String.format;                          import 6
         ));
     }
 
+    @Test
+    public void realFileShouldOutputWarningsForEachImportExcludingFilter() throws Exception {
+
+        StructurePlugin structurePlugin = new StructurePlugin(
+                "src/test/resources/ExcelCSVSkrivare.java",
+                "src/test/resources/someFilter.json");
+        
+        structurePlugin.process();
+        List<String> collect = structurePlugin.getOutput().collect(Collectors.toList());
+        assertThat(collect, contains(
+                "se.arbetsformedlingen.elin.rapport.util.ExcelCSVSkrivare refers to package java.lang.reflect",
+                "se.arbetsformedlingen.elin.rapport.util.ExcelCSVSkrivare refers to package java.text",
+                "se.arbetsformedlingen.elin.rapport.util.ExcelCSVSkrivare refers to package org.apache.commons.lang3"
+        ));
+    }
 }

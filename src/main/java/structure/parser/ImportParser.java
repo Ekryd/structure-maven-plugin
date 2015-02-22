@@ -13,7 +13,7 @@ public class ImportParser {
     public static boolean isImport(String line) {
         return IMPORT_REGEX.matcher(line).matches();
     }
-    
+
     public static String getImportName(String line) {
         Matcher matcher = IMPORT_REGEX.matcher(line);
         matcher.find();

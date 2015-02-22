@@ -10,7 +10,7 @@ import java.util.function.Consumer;
  */
 public class LinesStorageConsumer implements Consumer<String> {
     private final List<String> lines = new LinkedList<>();
-    
+
     /**
      * Performs this operation on the given argument.
      *

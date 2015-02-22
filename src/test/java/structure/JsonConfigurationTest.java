@@ -100,7 +100,7 @@ public class JsonConfigurationTest {
                 .collect(toCollection(LinkedHashSet::new));
         
         Set<String> keys = entries.stream()
-                .map(e -> e.getKey())
+                .map(Map.Entry::getKey)
                 .collect(toCollection(LinkedHashSet::new));
         
         assertThat(entries.size(), is(3));
