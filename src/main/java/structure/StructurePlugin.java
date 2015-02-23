@@ -7,9 +7,9 @@ import structure.parser.EntityParser;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedHashSet;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -18,22 +18,24 @@ import java.util.stream.Stream;
  */
 public class StructurePlugin {
 
+    private static final Gson GSON = new Gson();
     private final CodeLinesImpl codeLines;
-    private final Set<String> allowedPackages;
+    private final WildCardImportList allowedImports;
 
     private Stream<String> outputStream;
 
     public StructurePlugin(String fileName, String configurationName) {
         //TODO: Files.walk
         codeLines = new CodeLinesImpl(new File(fileName));
-        allowedPackages = getAllowedPackagesFromFile(configurationName);
+        allowedImports = getAllowedPackagesFromFile(configurationName);
     }
 
-    private Set<String> getAllowedPackagesFromFile(String configurationName) {
+    private WildCardImportList getAllowedPackagesFromFile(String configurationName) {
         try {
             JsonReader jsonReader = new JsonReader(new FileReader(configurationName));
-            Gson gson = new Gson();
-            return gson.fromJson(jsonReader, HashSet.class);
+            LinkedHashSet<String> set = GSON.fromJson(jsonReader, LinkedHashSet.class);
+            return set.stream()
+                    .collect(Collectors.toCollection(WildCardImportList::new));
         } catch (FileNotFoundException fex) {
             throw new RuntimeException(fex);
         }
@@ -41,7 +43,7 @@ public class StructurePlugin {
 
     public void process() {
         //TODO: Measure time
-        ScanFile scanFile = new ScanFile(codeLines.parseFile(EntityParser::isEntity), allowedPackages);
+        ScanFile scanFile = new ScanFile(codeLines.parseFile(EntityParser::isEntity), allowedImports);
 
         Function<String, String> warningGenerator = OutputGenerator.generateOutput.apply(
                 scanFile.getPackageName(), scanFile.getEntityName());

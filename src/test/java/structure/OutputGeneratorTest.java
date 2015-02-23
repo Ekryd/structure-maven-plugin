@@ -26,18 +26,18 @@ public class OutputGeneratorTest {
         String message = messageGenerator.apply("java.util.function");
         assertThat(message, is("OutputGenerator refers to package java.util.function"));
     }
-    
+
     @Test
     public void useOutputGeneratorInLambda() {
         Stream<String> stringStream = Stream.of(
                 "java.lang",
                 "java.util",
                 "se.arbetsformedlingen.utils.log");
-        
+
         Function<String, String> messageGenerator = OutputGenerator.generateOutput.apply(Optional.of("structure"), "OutputGenerator");
 
         List<String> messages = stringStream.map(messageGenerator).collect(Collectors.toList());
-                assertThat(messages, contains(
+        assertThat(messages, contains(
                 "structure.OutputGenerator refers to package java.lang",
                 "structure.OutputGenerator refers to package java.util",
                 "structure.OutputGenerator refers to package se.arbetsformedlingen.utils.log"

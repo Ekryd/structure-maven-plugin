@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
-* @author bjorn
-* @since 15-02-07
-*/
+ * @author bjorn
+ * @since 15-02-07
+ */
 public class Configuration {
     private List<ConfigurationRules> ruleSet_AND = new ArrayList<>();
 

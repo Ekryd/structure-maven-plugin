@@ -43,7 +43,7 @@ public class JsonConfigurationTest {
         assertThat(entries.size(), is(3));
         assertThat(keys, contains("se.gurka.*", "se.tomat.*", "se.*.facade"));
     }
-   
+
     @Test
     public void niceClassStructureShouldGenerateJson() {
         Configuration configuration = new Configuration();
@@ -98,11 +98,11 @@ public class JsonConfigurationTest {
         Set<Map.Entry<String, String>> entries = configuration.getRuleSet().stream()
                 .flatMap(rs -> rs.getAllowRoles().entrySet().stream())
                 .collect(toCollection(LinkedHashSet::new));
-        
+
         Set<String> keys = entries.stream()
                 .map(Map.Entry::getKey)
                 .collect(toCollection(LinkedHashSet::new));
-        
+
         assertThat(entries.size(), is(3));
         assertThat(keys, contains("se.gurka.*", "se.tomat.*", "se.*.facade"));
     }

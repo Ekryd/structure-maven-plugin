@@ -6,9 +6,7 @@ import structure.parser.EntityParser;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -33,8 +31,8 @@ public class ScanFileTest {
 package se.arbetsformedlingen.elin.rapport.util;
  */
 
-        ScanFile scanFile = new ScanFile(lines, Collections.EMPTY_SET);
-        
+        ScanFile scanFile = new ScanFile(lines, new WildCardImportList());
+
         assertThat(scanFile.getPackageName().get(), is("se.arbetsformedlingen.elin.rapport.util"));
     }
 
@@ -44,8 +42,8 @@ package se.arbetsformedlingen.elin.rapport.util;
 public class ExcelCSVSkrivare<T> {
  */
 
-        ScanFile scanFile = new ScanFile(lines, Collections.EMPTY_SET);
-        
+        ScanFile scanFile = new ScanFile(lines, new WildCardImportList());
+
         assertThat(scanFile.getEntityName(), is("ExcelCSVSkrivare"));
     }
 
@@ -65,8 +63,8 @@ import java.util.*;                                             import 5
 import static java.lang.String.format;                          import 6
  */
 
-        ScanFile scanFile = new ScanFile(lines, Collections.EMPTY_SET);
-        
+        ScanFile scanFile = new ScanFile(lines, new WildCardImportList());
+
         List<String> collect = scanFile.getIllegalImports().collect(Collectors.toList());
         assertThat(collect, contains(
                 "java.lang",
@@ -81,13 +79,14 @@ import static java.lang.String.format;                          import 6
 
     @Test
     public void filteredImportsShouldBeRemoved() throws Exception {
-        Set<String> filter = Stream.of(
-                "java.lang", 
-                "java.util", 
-                "se.arbetsformedlingen.utils.log").collect(Collectors.toSet());
-        
+        WildCardImportList filter = Stream.of(
+                "java.lang",
+                "java.util",
+                "se.arbetsformedlingen.utils.log")
+                .collect(Collectors.toCollection(WildCardImportList::new));
+
         ScanFile scanFile = new ScanFile(lines, filter);
-        
+
         List<String> collect = scanFile.getIllegalImports().collect(Collectors.toList());
         assertThat(collect, contains(
                 "java.lang.reflect",

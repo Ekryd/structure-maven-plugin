@@ -7,7 +7,6 @@ import structure.parser.PackageParser;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Stream;
 
 /**
@@ -16,18 +15,18 @@ import java.util.stream.Stream;
  */
 public class ScanFile {
     private final Collection<String> lines;
-    private final Set<String> allowedPackages;
+    private final WildCardImportList allowedImports;
 
-    public ScanFile(Collection<String> lines, Set<String> allowedPackages) {
+    public ScanFile(Collection<String> lines, WildCardImportList allowedImports) {
         this.lines = lines;
-        this.allowedPackages = allowedPackages;
+        this.allowedImports = allowedImports;
     }
 
     public Stream<String> getIllegalImports() {
         return lines.stream()
                 .filter(ImportParser::isImport)
                 .map(ImportParser::getImportName)
-                .filter(i -> !allowedPackages.contains(i))
+                .filter(i -> !allowedImports.matches(i))
                 .distinct()
                 .sorted(Comparator.naturalOrder());
     }

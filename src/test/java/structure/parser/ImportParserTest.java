@@ -4,7 +4,8 @@ import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static structure.parser.ImportParser.*;
+import static structure.parser.ImportParser.getImportName;
+import static structure.parser.ImportParser.isImport;
 
 public class ImportParserTest {
 

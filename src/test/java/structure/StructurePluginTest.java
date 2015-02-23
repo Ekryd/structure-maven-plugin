@@ -30,7 +30,7 @@ import static java.lang.String.format;                          import 6
         StructurePlugin structurePlugin = new StructurePlugin(
                 "src/test/resources/ExcelCSVSkrivare.java",
                 "src/test/resources/noFilter.json");
-        
+
         structurePlugin.process();
         List<String> collect = structurePlugin.getOutput().collect(Collectors.toList());
         assertThat(collect, contains(
@@ -49,12 +49,26 @@ import static java.lang.String.format;                          import 6
         StructurePlugin structurePlugin = new StructurePlugin(
                 "src/test/resources/ExcelCSVSkrivare.java",
                 "src/test/resources/someFilter.json");
-        
+
         structurePlugin.process();
         List<String> collect = structurePlugin.getOutput().collect(Collectors.toList());
         assertThat(collect, contains(
                 "se.arbetsformedlingen.elin.rapport.util.ExcelCSVSkrivare refers to package java.lang.reflect",
                 "se.arbetsformedlingen.elin.rapport.util.ExcelCSVSkrivare refers to package java.text",
+                "se.arbetsformedlingen.elin.rapport.util.ExcelCSVSkrivare refers to package org.apache.commons.lang3"
+        ));
+    }
+
+    @Test
+    public void realFileShouldOutputWarningsForEachImportExcludingWildcardFilter() throws Exception {
+
+        StructurePlugin structurePlugin = new StructurePlugin(
+                "src/test/resources/ExcelCSVSkrivare.java",
+                "src/test/resources/wildcardFilter.json");
+
+        structurePlugin.process();
+        List<String> collect = structurePlugin.getOutput().collect(Collectors.toList());
+        assertThat(collect, contains(
                 "se.arbetsformedlingen.elin.rapport.util.ExcelCSVSkrivare refers to package org.apache.commons.lang3"
         ));
     }

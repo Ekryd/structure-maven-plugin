@@ -24,24 +24,23 @@ public class CodeLinesTest {
 
         @Override
         public Collection<String> parseFile(Predicate<String> endParseCondition) {
-            return Arrays.asList("package structure.util;" ,
-                    "" ,
-                    "import java.util.List;" ,
-                    "import java.util.Map;" ,
-                    "import structure.util.Tomat;" ,
-                    "import structure.*;" ,
-                    "" ,
-                    "" ,
+            return Arrays.asList("package structure.util;",
+                    "",
+                    "import java.util.List;",
+                    "import java.util.Map;",
+                    "import structure.util.Tomat;",
+                    "import structure.*;",
+                    "",
+                    "",
                     "public class Gurka {");
         }
     }
-    
     
     @Before
     public void setUp() throws Exception {
         codeLinesMock = new CodeLinesMock();
     }
-    
+
     @Test
     public void extractPackageNameShouldBeSameAsInStream() throws Exception {
         Optional<String> name = codeLinesMock.parseCodeLines(null)

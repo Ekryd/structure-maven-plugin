@@ -22,12 +22,12 @@ public class CodeLinesImplTest {
         file = new File("src/test/resources/Gurka.java");
         codeLines = new CodeLinesImpl(file);
     }
-    
+
     @Test
     public void findTestResourceShouldWork() {
         assertThat(file.exists(), is(true));
     }
-    
+
     @Test
     public void classDeclarationShouldBeReadFromFile() {
         Stream<String> fileStream = codeLines.parseFile(EntityParser::isEntity).stream();
