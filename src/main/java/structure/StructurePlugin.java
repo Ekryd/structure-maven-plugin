@@ -20,7 +20,7 @@ public class StructurePlugin {
 
     private static final Gson GSON = new Gson();
     private final CodeLinesImpl codeLines;
-    private final WildCardImportList allowedImports;
+    private final WildCardImportList2 allowedImports;
 
     private Stream<String> outputStream;
 
@@ -30,12 +30,12 @@ public class StructurePlugin {
         allowedImports = getAllowedPackagesFromFile(configurationName);
     }
 
-    private WildCardImportList getAllowedPackagesFromFile(String configurationName) {
+    private WildCardImportList2 getAllowedPackagesFromFile(String configurationName) {
         try {
             JsonReader jsonReader = new JsonReader(new FileReader(configurationName));
             LinkedHashSet<String> set = GSON.fromJson(jsonReader, LinkedHashSet.class);
             return set.stream()
-                    .collect(Collectors.toCollection(WildCardImportList::new));
+                    .collect(Collectors.toCollection(WildCardImportList2::new));
         } catch (FileNotFoundException fex) {
             throw new RuntimeException(fex);
         }
