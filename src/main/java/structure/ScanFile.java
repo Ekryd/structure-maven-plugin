@@ -15,9 +15,9 @@ import java.util.stream.Stream;
  */
 public class ScanFile {
     private final Collection<String> lines;
-    private final WildCardImportList2 allowedImports;
+    private final WildCardImportList allowedImports;
 
-    public ScanFile(Collection<String> lines, WildCardImportList2 allowedImports) {
+    public ScanFile(Collection<String> lines, WildCardImportList allowedImports) {
         this.lines = lines;
         this.allowedImports = allowedImports;
     }

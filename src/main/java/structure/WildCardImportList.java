@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @author bjorn
  * @since 15-02-23
  */
-public class WildCardImportList2 extends AbstractList<String> {
+public class WildCardImportList extends AbstractList<String> {
     private ArrayList<WildCardString> list = new ArrayList<>();
 
     @Override

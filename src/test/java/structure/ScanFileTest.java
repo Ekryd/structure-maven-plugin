@@ -31,7 +31,7 @@ public class ScanFileTest {
 package se.arbetsformedlingen.elin.rapport.util;
  */
 
-        ScanFile scanFile = new ScanFile(lines, new WildCardImportList2());
+        ScanFile scanFile = new ScanFile(lines, new WildCardImportList());
 
         assertThat(scanFile.getPackageName().get(), is("se.arbetsformedlingen.elin.rapport.util"));
     }
@@ -42,7 +42,7 @@ package se.arbetsformedlingen.elin.rapport.util;
 public class ExcelCSVSkrivare<T> {
  */
 
-        ScanFile scanFile = new ScanFile(lines, new WildCardImportList2());
+        ScanFile scanFile = new ScanFile(lines, new WildCardImportList());
 
         assertThat(scanFile.getEntityName(), is("ExcelCSVSkrivare"));
     }
@@ -63,7 +63,7 @@ import java.util.*;                                             import 5
 import static java.lang.String.format;                          import 6
  */
 
-        ScanFile scanFile = new ScanFile(lines, new WildCardImportList2());
+        ScanFile scanFile = new ScanFile(lines, new WildCardImportList());
 
         List<String> collect = scanFile.getIllegalImports().collect(Collectors.toList());
         assertThat(collect, contains(
@@ -79,11 +79,11 @@ import static java.lang.String.format;                          import 6
 
     @Test
     public void filteredImportsShouldBeRemoved() throws Exception {
-        WildCardImportList2 filter = Stream.of(
+        WildCardImportList filter = Stream.of(
                 "java.lang",
                 "java.util",
                 "se.arbetsformedlingen.utils.log")
-                .collect(Collectors.toCollection(WildCardImportList2::new));
+                .collect(Collectors.toCollection(WildCardImportList::new));
 
         ScanFile scanFile = new ScanFile(lines, filter);
 
