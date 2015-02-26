@@ -1,6 +1,5 @@
 package structure;
 
-import java.util.function.IntFunction;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -15,26 +14,26 @@ public class WildCardString {
         this.regExPattern = Pattern.compile(replaceSpecialCharacters(str));
     }
 
-    static String replaceSpecialCharacters(String str) {
-        IntFunction<String> replacer = c -> {
-            if (c == '.') {
-                return "\\.";
-            }
-            if (c == '*') {
-                return "[\\w.]*";
-            }
-            return String.valueOf((char) c);
-        };
+    private static String replaceSpecialCharacters(String str) {
+        return str.chars().mapToObj(WildCardString::characterReplacer).collect(Collectors.joining("", "^", "$"));
+    }
 
-        return str.chars().mapToObj(replacer).collect(Collectors.joining("", "^", "$"));
+    private static String characterReplacer(final int ch) {
+        if (ch == '.') {
+            return "\\.";
+        }
+        if (ch == '*') {
+            return "[\\w.]*";
+        }
+        return String.valueOf((char) ch);
     }
 
     public boolean matches(String str) {
         return regExPattern.matcher(str).matches();
-
     }
 
     public String getString() {
         return regExPattern.pattern();
     }
+
 }
